@@ -165,12 +165,17 @@ function openServiceModal(serviceId) {
     const icon = document.getElementById('modalIcon');
     const desc = document.getElementById('modalServiceDesc');
     const features = document.getElementById('modalFeatures');
+    const whatsappBtn = document.getElementById('whatsappServiceBtn');
 
     title.textContent = service.name;
     name.textContent = service.name;
     icon.innerHTML = `<i class="${service.icon}"></i>`;
     icon.className = `modal-icon ${service.color}`;
     desc.textContent = service.description;
+
+    // WhatsApp button
+    const whatsappMessage = `Hi Siva Waterproofing, I'm interested in ${service.name}. Can you provide more details?`;
+    whatsappBtn.href = `https://wa.me/919843835767?text=${encodeURIComponent(whatsappMessage)}`;
 
     features.innerHTML = '<h5 class="fw-bold mt-4 mb-3">Key Features:</h5>';
     service.features.forEach(feature => {
@@ -179,57 +184,6 @@ function openServiceModal(serviceId) {
 
     const serviceModal = new bootstrap.Modal(document.getElementById('serviceModal'));
     serviceModal.show();
-}
-
-// Contact Form Submission
-function handleContactSubmit(event) {
-    event.preventDefault();
-
-    const form = event.target;
-    const formData = {
-        name: form.querySelector('input[name="name"]').value,
-        phone: form.querySelector('input[name="phone"]').value,
-        email: form.querySelector('input[name="email"]').value,
-        service: form.querySelector('select[name="service"]').value,
-        message: form.querySelector('textarea[name="message"]').value
-    };
-
-    // Validate form
-    if (!formData.name || !formData.phone || !formData.email || !formData.message) {
-        alert('Please fill in all required fields');
-        return;
-    }
-
-    // Create mailto link
-    const subject = `Inquiry from ${formData.name} - ${formData.service || 'General Inquiry'}`;
-    const body = `
-Name: ${formData.name}
-Phone: ${formData.phone}
-Email: ${formData.email}
-Service: ${formData.service || 'Not specified'}
-
-Message:
-${formData.message}
-    `.trim();
-
-    const mailtoLink = `mailto:sivasatheesh05@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-    // Show success message
-    alert('Thank you for your inquiry! We will contact you soon.');
-    
-    // Open email client
-    setTimeout(() => {
-        window.location.href = mailtoLink;
-    }, 500);
-
-    // Reset form
-    form.reset();
-
-    // Close modal
-    const contactModal = bootstrap.Modal.getInstance(document.getElementById('contactModal'));
-    if (contactModal) {
-        contactModal.hide();
-    }
 }
 
 // Scroll to Top Button
@@ -283,3 +237,15 @@ navLinks.forEach(link => {
         }
     });
 });
+
+// Contact form with email notifications
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+        // Form will be submitted via Formspree
+        // Show success message
+        setTimeout(() => {
+            alert('Thank you! Your inquiry has been sent. We will contact you soon.');
+        }, 100);
+    });
+}
