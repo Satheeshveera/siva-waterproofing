@@ -1,234 +1,285 @@
-// ========================================
-// Document Ready
-// ========================================
+// Service Data
+const services = {
+    1: {
+        name: 'Terrace Waterproofing Treatment',
+        icon: 'fas fa-building',
+        color: 'icon-1',
+        description: 'Professional waterproofing treatment for terraces to prevent water seepage and damage. Our expert team uses premium materials and advanced techniques to provide long-lasting protection for your roof. We offer comprehensive solutions tailored to your specific needs.',
+        features: [
+            'High-quality sealant application',
+            'Weather-resistant protection',
+            'Quick-drying formula',
+            '5-year warranty included'
+        ]
+    },
+    2: {
+        name: 'Heat Insulations Coating',
+        icon: 'fas fa-sun',
+        color: 'icon-2',
+        description: 'Thermal insulation coatings to reduce heat transfer and improve energy efficiency. Keep your property cool and comfortable while reducing energy costs. Our heat-reflective coatings are eco-friendly and durable.',
+        features: [
+            'Energy cost reduction up to 40%',
+            'UV protection',
+            'Eco-friendly materials',
+            'Long-lasting performance'
+        ]
+    },
+    3: {
+        name: 'External Protective Coating',
+        icon: 'fas fa-shield-alt',
+        color: 'icon-3',
+        description: 'Protective coatings for external surfaces to ensure durability and aesthetic appeal. Enhance and protect your building exterior from harsh weather conditions and UV rays.',
+        features: [
+            'UV resistant coating',
+            'Weather protection',
+            'Color retention',
+            'Easy maintenance'
+        ]
+    },
+    4: {
+        name: 'Structural Repairs & Rehabilitation',
+        icon: 'fas fa-hammer',
+        color: 'icon-4',
+        description: 'Comprehensive structural repairs and rehabilitation services for buildings. Restore your property to its original condition with our expert repair solutions.',
+        features: [
+            'Concrete crack repair',
+            'Foundation strengthening',
+            'Professional consultation',
+            'Quality assurance'
+        ]
+    },
+    5: {
+        name: 'PU Injection for Concrete Seepage',
+        icon: 'fas fa-syringe',
+        color: 'icon-5',
+        description: 'Advanced PU injection technique to stop concrete seepage and moisture problems. Effective solution for basement flooding and water intrusion issues.',
+        features: [
+            'Advanced injection technology',
+            'Permanent sealing',
+            'Non-invasive process',
+            'Quick results'
+        ]
+    },
+    6: {
+        name: 'Water Proofing Coatings',
+        icon: 'fas fa-droplet',
+        color: 'icon-6',
+        description: 'Specialized water-resistant coatings to protect surfaces from water damage. Advanced polymer-based protection solutions for all types of surfaces.',
+        features: [
+            'Water-resistant barrier',
+            'Flexible coating',
+            'Breathable formula',
+            'Multi-surface application'
+        ]
+    },
+    7: {
+        name: 'Tank Waterproofing Treatment',
+        icon: 'fas fa-cube',
+        color: 'icon-7',
+        description: 'Complete waterproofing solution for water tanks and reservoirs. Ensure safe, clean water storage for years to come with our professional treatment.',
+        features: [
+            'Food-grade coating',
+            'Bacteria resistant',
+            'Leak prevention',
+            'Durability assured'
+        ]
+    },
+    8: {
+        name: 'Epoxy Polyurethane Coating',
+        icon: 'fas fa-paint-brush',
+        color: 'icon-8',
+        description: 'High-performance epoxy and polyurethane coating for terrace protection. Durable, flexible, and weather-resistant coating with superior adhesion.',
+        features: [
+            'Superior adhesion',
+            'Flexible coating',
+            'Fast curing',
+            'Excellent durability'
+        ]
+    },
+    9: {
+        name: 'Epoxy Tile Grouts for Bathroom',
+        icon: 'fas fa-bath',
+        color: 'icon-9',
+        description: 'Waterproof epoxy tile grouts specifically designed for bathroom applications. Mold-resistant and long-lasting grout solution for all tile types.',
+        features: [
+            'Mold and mildew resistant',
+            'Water-proof grout',
+            'Color-stable formula',
+            'Easy to clean'
+        ]
+    },
+    10: {
+        name: 'Building Renovation',
+        icon: 'fas fa-home',
+        color: 'icon-10',
+        description: 'Complete building renovation services to modernize and improve properties. Transform your space with expert renovation solutions including waterproofing.',
+        features: [
+            'Complete renovation planning',
+            'Quality workmanship',
+            'On-time delivery',
+            'Professional team'
+        ]
+    }
+};
 
-$(document).ready(function() {
-    // Initialize
-    initMobileMenu();
-    initFormSubmit();
-    initScrollEffects();
+// Initialize AOS
+AOS.init({
+    duration: 1000,
+    once: true,
+    offset: 100
 });
 
-// ========================================
-// Mobile Menu Toggle
-// ========================================
+// Navbar scroll effect
+window.addEventListener('scroll', function() {
+    const navbar = document.getElementById('mainNav');
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});
 
-function initMobileMenu() {
-    const hamburger = $('.hamburger');
-    const navLinks = $('.nav-links');
-
-    hamburger.on('click', function() {
-        navLinks.toggleClass('active');
-        hamburger.toggleClass('active');
-    });
-
-    // Close menu when a link is clicked
-    navLinks.find('a').on('click', function() {
-        navLinks.removeClass('active');
-        hamburger.removeClass('active');
-    });
-}
-
-// ========================================
-// Form Submit Handler
-// ========================================
-
-function initFormSubmit() {
-    $('#inquiryForm').on('submit', function(e) {
-        e.preventDefault();
-
-        // Get form data
-        const formData = {
-            name: $('#name').val(),
-            phone: $('#phone').val(),
-            email: $('#email').val(),
-            service: $('#service').val(),
-            message: $('#message').val()
-        };
-
-        // Validate form
-        if (!validateForm(formData)) {
-            return;
+// Smooth scrolling for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href !== '#' && document.querySelector(href)) {
+            e.preventDefault();
+            const target = document.querySelector(href);
+            const offsetTop = target.offsetTop - 80;
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
         }
-
-        // Show success message
-        showFormSuccess();
-
-        // Handle form submission
-        handleFormSubmission(formData);
-
-        // Reset form after delay
-        setTimeout(function() {
-            document.getElementById('inquiryForm').reset();
-        }, 500);
     });
+});
+
+// Open Service Modal
+function openServiceModal(serviceId) {
+    const service = services[serviceId];
+    if (!service) return;
+
+    const title = document.getElementById('serviceTitle');
+    const name = document.getElementById('modalServiceName');
+    const icon = document.getElementById('modalIcon');
+    const desc = document.getElementById('modalServiceDesc');
+    const features = document.getElementById('modalFeatures');
+
+    title.textContent = service.name;
+    name.textContent = service.name;
+    icon.innerHTML = `<i class="${service.icon}"></i>`;
+    icon.className = `modal-icon ${service.color}`;
+    desc.textContent = service.description;
+
+    features.innerHTML = '<h5 class="fw-bold mt-4 mb-3">Key Features:</h5>';
+    service.features.forEach(feature => {
+        features.innerHTML += `<div class="mb-2"><i class="fas fa-check-circle text-success"></i> <span class="ms-2">${feature}</span></div>`;
+    });
+
+    const serviceModal = new bootstrap.Modal(document.getElementById('serviceModal'));
+    serviceModal.show();
 }
 
-// ========================================
-// Form Validation
-// ========================================
+// Contact Form Submission
+function handleContactSubmit(event) {
+    event.preventDefault();
 
-function validateForm(data) {
-    if (!data.name.trim()) {
-        showAlert('Please enter your name', 'error');
-        return false;
+    const form = event.target;
+    const formData = {
+        name: form.querySelector('input[name="name"]').value,
+        phone: form.querySelector('input[name="phone"]').value,
+        email: form.querySelector('input[name="email"]').value,
+        service: form.querySelector('select[name="service"]').value,
+        message: form.querySelector('textarea[name="message"]').value
+    };
+
+    // Validate form
+    if (!formData.name || !formData.phone || !formData.email || !formData.message) {
+        alert('Please fill in all required fields');
+        return;
     }
 
-    if (!data.phone.trim()) {
-        showAlert('Please enter your phone number', 'error');
-        return false;
-    }
-
-    // Basic phone validation
-    const phoneRegex = /^[0-9\s\-\+\(\)]+$/;
-    if (!phoneRegex.test(data.phone)) {
-        showAlert('Please enter a valid phone number', 'error');
-        return false;
-    }
-
-    if (!data.email.trim()) {
-        showAlert('Please enter your email address', 'error');
-        return false;
-    }
-
-    // Basic email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
-        showAlert('Please enter a valid email address', 'error');
-        return false;
-    }
-
-    if (!data.service) {
-        showAlert('Please select a service', 'error');
-        return false;
-    }
-
-    if (!data.message.trim()) {
-        showAlert('Please enter a message', 'error');
-        return false;
-    }
-
-    return true;
-}
-
-// ========================================
-// Handle Form Submission
-// ========================================
-
-function handleFormSubmission(formData) {
-    // Create email subject and body
-    const emailSubject = `Inquiry from ${formData.name} - ${formData.service}`;
-    const emailBody = `
+    // Create mailto link
+    const subject = `Inquiry from ${formData.name} - ${formData.service || 'General Inquiry'}`;
+    const body = `
 Name: ${formData.name}
 Phone: ${formData.phone}
 Email: ${formData.email}
-Service: ${formData.service}
+Service: ${formData.service || 'Not specified'}
 
 Message:
 ${formData.message}
     `.trim();
 
-    // Create mailto link for email
-    const mailtoLink = `mailto:info@sivawaterproofing.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    const mailtoLink = `mailto:sivasatheesh05@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    // Show success message
+    alert('Thank you for your inquiry! We will contact you soon.');
     
     // Open email client
-    setTimeout(function() {
+    setTimeout(() => {
         window.location.href = mailtoLink;
-    }, 1000);
-}
-
-// ========================================
-// Show Form Success
-// ========================================
-
-function showFormSuccess() {
-    const successMsg = $('<div class="success-message">✓ Your inquiry has been submitted successfully! We will contact you soon.</div>');
-    
-    $('.inquiry-form').prepend(successMsg);
-    
-    successMsg.fadeIn().delay(4000).fadeOut(function() {
-        $(this).remove();
-    });
-
-    // Scroll to message
-    $('html, body').animate({
-        scrollTop: $('.inquiry-form').offset().top - 100
     }, 500);
+
+    // Reset form
+    form.reset();
+
+    // Close modal
+    const contactModal = bootstrap.Modal.getInstance(document.getElementById('contactModal'));
+    if (contactModal) {
+        contactModal.hide();
+    }
 }
 
-// ========================================
-// Show Alert
-// ========================================
+// Scroll to Top Button
+const scrollTopBtn = document.getElementById('scrollTopBtn');
 
-function showAlert(message, type) {
-    const alertClass = type === 'error' ? 'alert-error' : 'alert-success';
-    const alertMsg = $(`<div class="alert ${alertClass}">${message}</div>`);
-    
-    $('.inquiry-form').prepend(alertMsg);
-    
-    alertMsg.fadeIn().delay(3000).fadeOut(function() {
-        $(this).remove();
+window.addEventListener('scroll', function() {
+    if (window.scrollY > 300) {
+        scrollTopBtn.classList.add('show');
+    } else {
+        scrollTopBtn.classList.remove('show');
+    }
+});
+
+scrollTopBtn.addEventListener('click', function() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
     });
-}
+});
 
-// ========================================
-// Scroll Effects
-// ========================================
+// Add animation to service cards on scroll
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
+};
 
-function initScrollEffects() {
-    // Smooth scroll for anchor links
-    $('a[href^="#"]').on('click', function(e) {
-        e.preventDefault();
-        
-        const target = $(this.getAttribute('href'));
-        if (target.length) {
-            $('html, body').stop().animate({
-                scrollTop: target.offset().top - 80
-            }, 1000);
+const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
         }
     });
+}, observerOptions);
 
-    // Fade in elements on scroll
-    $(window).on('scroll', function() {
-        fadeInOnScroll();
-    });
-}
+document.querySelectorAll('.service-card').forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    card.style.transition = 'all 0.3s ease';
+    observer.observe(card);
+});
 
-// ========================================
-// Fade In On Scroll
-// ========================================
+// Mobile menu close on link click
+const navbarCollapse = document.querySelector('.navbar-collapse');
+const navLinks = document.querySelectorAll('.nav-link');
 
-function fadeInOnScroll() {
-    $('.service-card, .feature, .gallery-item, .info-item').each(function() {
-        const elementPos = $(this).offset().top;
-        const elementHeight = $(this).outerHeight();
-        const viewportHeight = $(window).height();
-        const scrollPos = $(window).scrollTop();
-
-        if (scrollPos + viewportHeight > elementPos && scrollPos < elementPos + elementHeight) {
-            $(this).addClass('fade-in');
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        if (navbarCollapse.classList.contains('show')) {
+            document.querySelector('.navbar-toggler').click();
         }
     });
-}
-
-// ========================================
-// Call Company
-// ========================================
-
-function callCompany() {
-    window.location.href = 'tel:+919876543210';
-}
-
-// ========================================
-// Format Phone Number
-// ========================================
-
-function formatPhoneNumber(phone) {
-    // Remove all non-digit characters
-    let cleaned = phone.replace(/\D/g, '');
-    
-    // Format as (XXX) XXX-XXXX
-    let formatted = cleaned.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-    
-    return formatted;
-}
+});
